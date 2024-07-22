@@ -1,0 +1,4 @@
+*.xlsx
+.env
+docker/volumes/*
+.idea

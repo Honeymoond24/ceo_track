@@ -1,0 +1,26 @@
+services:
+
+  db:
+    user: root
+    image: postgres:16.3-alpine3.19
+    container_name: "${COMPOSE_PROJECT_NAME}_db"
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    expose:
+      - "${POSTGRES_PORT}"
+    volumes:
+      - ./docker/volumes/${COMPOSE_PROJECT_NAME}_postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+      start_period: 3s
+    logging:
+      driver: json-file
+      options:
+        max-size: "512m"
+        max-file: "3"
