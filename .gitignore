@@ -2,3 +2,4 @@
 .env
 docker/volumes/*
 .idea
+*.db
