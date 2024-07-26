@@ -9,7 +9,9 @@ import (
 )
 
 type Item struct {
-	ItemId int `json:"itemId"`
+	ItemId     int    `json:"itemId"`
+	RegionName string `json:"name"`
+	FileName   string
 }
 
 type ItemsResponse struct {
@@ -17,7 +19,7 @@ type ItemsResponse struct {
 	List    []Item `json:"list"`
 }
 
-func (s *DataSource) getItemList(itemId int) []int {
+func (s *DataSource) getItemList(itemId int) []Item {
 	url := fmt.Sprintf("https://stat.gov.kz/api/klazz/213/%d/ru", itemId)
 	resp, err := http.Get(url)
 	if err != nil {
@@ -29,12 +31,13 @@ func (s *DataSource) getItemList(itemId int) []int {
 	if err = decoder.Decode(&response); err != nil {
 		fmt.Println(err)
 	}
-
-	var itemIds []int
-	for _, item := range response.List { // _ is index, item is Item type
-		itemIds = append(itemIds, item.ItemId)
-	}
-	return itemIds
+	fmt.Println("getItemList(", itemId, ") -> response:", response)
+	return response.List
+	//var itemIds []int
+	//for _, item := range response.List { // _ is index, item is Item type
+	//	itemIds = append(itemIds, item.ItemId)
+	//}
+	//return itemIds
 }
 
 type FileExportResponse struct {

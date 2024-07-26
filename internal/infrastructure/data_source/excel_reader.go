@@ -18,7 +18,8 @@ type ExcelFile struct {
 	Rows     []Row
 }
 
-func (e *ExcelFile) ReadFile() ExcelFile {
+func (e *ExcelFile) ReadFile(fileName string) ExcelFile {
+	e.FileName = fileName
 	f, err := excelize.OpenFile(e.FileName) // Read the file
 	if err != nil {
 		fmt.Println(err)
@@ -33,7 +34,8 @@ func (e *ExcelFile) ReadFile() ExcelFile {
 	}()
 
 	// Populate the rows
-	rows, err := f.GetRows(f.GetSheetName(0))
+	sheetName := f.GetSheetName(0)
+	rows, err := f.GetRows(sheetName)
 	if err != nil {
 		fmt.Println(err)
 	}
