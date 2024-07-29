@@ -6,7 +6,7 @@
 cp .env.example .env
 # Edit the .env file
 sudo docker-compose up -d --build
-0 0 * * 1 sudo docker-compose up -d --build
+echo "0 0 * * 1 sudo docker-compose up -d --build" | sudo tee -a /etc/crontab
 ```
 Data persist in the `./ceo_track.db` file, that'll be created in the root of the project on the first launch.
 
