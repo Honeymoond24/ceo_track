@@ -1,3 +1,12 @@
-FROM ubuntu:latest
+FROM golang:1.22.5-bookworm
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /app
+
+COPY go.* ./
+RUN go mod download
+
+COPY . .
+
+RUN go build -v -o app ./cmd/app/main.go
+
+CMD /app/app
