@@ -28,5 +28,8 @@ func (c *CeoChanges) MakeMessageReport() string {
 			message += ceo.CompanyBin + " - " + ceo.NewCeoFullName + " -> " + ceo.OldCeoFullName + "\n"
 		}
 	}
+	if len(c.New) == 0 && len(c.Changes) == 0 {
+		message = "Нет изменений"
+	}
 	return message
 }
