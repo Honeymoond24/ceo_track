@@ -3,6 +3,8 @@
 ## How to run on production
 
 ```bash
+cp .env.example .env
+# Edit the .env file
 sudo docker-compose up -d --build
 ```
 Data persist in the `./ceo_track.db` file, that'll be created in the root of the project on the first launch.
@@ -10,6 +12,8 @@ Data persist in the `./ceo_track.db` file, that'll be created in the root of the
 ## How to run on development
 
 ```bash
+cp .env.example .env
+# Edit the .env file
 clear; go run ./cmd/app/
 ```
 
