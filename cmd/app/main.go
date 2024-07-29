@@ -37,11 +37,4 @@ func main() {
 	} else {
 		application.LaunchTrack(db)
 	}
-	//dataSource := data_source.DataSource{}
-	//dataFiles := dataSource.GetCeoData()
-	//fmt.Println("DataFiles:", dataFiles)
-	//for _, dataFile := range dataFiles {
-	//	excelFile := data_source.ExcelFile{FileName: dataFile}
-	//	excelFile.ReadFile()
-	//}
 }
