@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 type Item struct {
@@ -71,16 +73,27 @@ func (s *DataSource) getDataFileLink(itemId int) string {
 func (s *DataSource) fileDownload(url, fileName string) {
 	resp, err := http.Get(url)
 
-	// Create the file
-	out, err := os.Create(fileName)
+	dirPath := "files"
+	filePath := filepath.Join(dirPath, fileName)
+	// Create the directory if it doesn't exist
+	if err := os.MkdirAll(dirPath, os.ModePerm); err != nil {
+		fmt.Printf("Error creating directory: %v\n", err)
+		return
+	}
+	out, err := os.Create(filePath)
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer out.Close()
+	defer func(out *os.File) {
+		err := out.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(out)
 
 	// Write the body to file
 	_, err = io.Copy(out, resp.Body)
-	fmt.Println("Downloaded:", fileName, "from", url)
+	fmt.Println("Downloaded:", filePath, "from", url)
 }
 
 func (s *DataSource) downloadData(itemId int) string {
